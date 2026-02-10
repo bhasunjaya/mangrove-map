@@ -28,7 +28,7 @@ lerna-debug.log*
 .env.*
 !.env.example
 
-# Package manager
-package-lock.json
+# Package manager (keep package-lock.json for reproducible builds)
+# package-lock.json is needed for GitHub Actions
 yarn.lock
 pnpm-lock.yaml

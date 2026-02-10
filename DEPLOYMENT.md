@@ -245,13 +245,23 @@ env:
 2. **Commit Teratur**: Commit perubahan secara berkala dengan pesan yang jelas
 3. **Gunakan Branch**: Untuk fitur besar, buat branch baru lalu merge ke main
 4. **Backup Data**: Export data praktik dan narasi secara berkala
+5. **Commit package-lock.json**: Untuk reproducible builds dan menghindari error di CI
+
+## Troubleshooting
+
+Jika mengalami masalah deployment, lihat **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** untuk:
+- Error: Dependencies lock file is not found
+- 404 Page Not Found
+- CSS/JS tidak load
+- Dan masalah umum lainnya
 
 ## Support
 
 Jika ada masalah:
-1. Cek dokumentasi Nuxt: https://nuxt.com/docs
-2. Cek GitHub Pages docs: https://docs.github.com/pages
-3. Buat issue di repository
+1. **Cek [TROUBLESHOOTING.md](TROUBLESHOOTING.md)** untuk solusi umum
+2. Cek dokumentasi Nuxt: https://nuxt.com/docs
+3. Cek GitHub Pages docs: https://docs.github.com/pages
+4. Buat issue di repository dengan detail lengkap
 
 ---
 

@@ -239,13 +239,61 @@ env:
   API_KEY: ${{ secrets.API_KEY }}
 ```
 
+## Testing Lokal Sebelum Deploy
+
+Sebelum push ke GitHub, sangat penting untuk test build production di lokal:
+
+### Workflow Testing yang Benar
+
+```bash
+# 1. Development (dengan hot reload)
+npm run dev
+# → Akses: http://localhost:3000
+# → Untuk development dengan hot reload
+
+# 2. Testing Production Build
+npm run generate    # Generate static files ke .output/public
+npm run preview     # Preview dengan web server
+# → Akses: http://localhost:4173/mangrove-map/
+# → Test dengan environment production
+
+# 3. Deploy ke GitHub Pages
+git add .
+git commit -m "Deskripsi perubahan"
+git push
+# → Otomatis deploy via GitHub Actions
+```
+
+### ⚠️ PENTING: Jangan Buka File HTML Langsung
+
+**❌ JANGAN:**
+```bash
+# Jangan buka .output/public/index.html langsung di browser
+# Ini akan menyebabkan MIME type error
+```
+
+**✅ GUNAKAN:**
+```bash
+npm run preview
+# atau
+npx serve .output/public
+```
+
+**Kenapa?**
+- Browser memblokir JavaScript modules dari `file://` protocol
+- Static site butuh web server untuk serve files dengan benar
+- MIME types hanya terdeteksi dengan benar melalui HTTP server
+
+Lihat [TROUBLESHOOTING.md](TROUBLESHOOTING.md) untuk detail lengkap tentang error MIME type.
+
 ## Tips
 
 1. **Test Lokal Dulu**: Selalu test dengan `npm run generate && npm run preview` sebelum push
-2. **Commit Teratur**: Commit perubahan secara berkala dengan pesan yang jelas
-3. **Gunakan Branch**: Untuk fitur besar, buat branch baru lalu merge ke main
-4. **Backup Data**: Export data praktik dan narasi secara berkala
-5. **Commit package-lock.json**: Untuk reproducible builds dan menghindari error di CI
+2. **Gunakan Web Server**: JANGAN buka index.html langsung, gunakan `npm run preview`
+3. **Commit Teratur**: Commit perubahan secara berkala dengan pesan yang jelas
+4. **Gunakan Branch**: Untuk fitur besar, buat branch baru lalu merge ke main
+5. **Backup Data**: Export data praktik dan narasi secara berkala
+6. **Commit package-lock.json**: Untuk reproducible builds dan menghindari error di CI
 
 ## Troubleshooting
 

@@ -2,7 +2,107 @@
 
 ## Common Issues dan Solusinya
 
-### 1. Error: Dependencies lock file is not found
+### 1. Error: MIME type tidak diizinkan saat membuka file lokal
+
+**Error:**
+```
+Memuat modul dari 'http://localhost:8001/mangrove-map/assets/DjXZz8SK.js' 
+telah diblokir karena tipe MIME yang tidak diizinkan
+```
+atau
+```
+Failed to load module script: Expected a JavaScript module script but the server 
+responded with a MIME type of "text/plain"
+```
+
+**Penyebab:**
+- Membuka file `index.html` langsung dari file system (`file://` protocol)
+- Browser memblokir JavaScript modules yang dimuat dari `file://` protocol
+- Static site memerlukan web server yang proper untuk serve files
+
+**Solusi:**
+
+#### JANGAN membuka file HTML secara langsung
+```bash
+# ❌ SALAH - Jangan buka langsung
+# Membuka .output/public/index.html di browser
+# Atau double-click index.html
+```
+
+#### ✅ BENAR - Gunakan web server lokal
+
+**Opsi A: Gunakan npm preview (Recommended)**
+```bash
+# Generate static site
+npm run generate
+
+# Preview dengan web server built-in
+npm run preview
+
+# Akses di browser:
+# http://localhost:4173/mangrove-map/
+```
+
+**Opsi B: Gunakan serve package**
+```bash
+# Install serve globally (sekali saja)
+npm install -g serve
+
+# Generate static site
+npm run generate
+
+# Serve dengan baseURL support
+npx serve .output/public
+
+# Akses di browser:
+# http://localhost:3000/
+```
+
+**Opsi C: Gunakan Python SimpleHTTPServer**
+```bash
+# Generate static site
+npm run generate
+
+# Pindah ke output directory
+cd .output/public
+
+# Python 3
+python3 -m http.server 8000
+
+# Akses di browser:
+# http://localhost:8000/mangrove-map/
+```
+
+**Opsi D: Gunakan VS Code Live Server**
+```bash
+# 1. Install extension "Live Server" di VS Code
+# 2. Generate static site
+npm run generate
+
+# 3. Buka .output/public di VS Code
+# 4. Right-click index.html → "Open with Live Server"
+# 5. Akses: http://localhost:5500/mangrove-map/
+```
+
+**Workflow yang Benar:**
+```bash
+# Development (dengan hot reload)
+npm run dev
+# → Akses: http://localhost:3000
+
+# Testing Production Build Lokal
+npm run generate    # Generate static files
+npm run preview     # Preview dengan web server
+# → Akses: http://localhost:4173/mangrove-map/
+
+# Deploy ke GitHub Pages
+git add .
+git commit -m "Update site"
+git push
+# → Otomatis deploy via GitHub Actions
+```
+
+### 2. Error: Dependencies lock file is not found
 
 **Error:**
 ```

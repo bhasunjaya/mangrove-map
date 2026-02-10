@@ -158,11 +158,38 @@ mangrove-map/
 
 ## Scripts
 
-- `npm run dev` - Menjalankan development server
-- `npm run build` - Build aplikasi untuk production
-- `npm run generate` - Generate static site
-- `npm run preview` - Preview production build
+### Development
+- `npm run dev` - Menjalankan development server dengan hot reload
+  - Akses: `http://localhost:3000`
+
+### Production Build & Testing
+- `npm run generate` - Generate static site ke `.output/public/`
+- `npm run preview` - Preview production build dengan web server lokal
+  - Akses: `http://localhost:4173/mangrove-map/`
+  - **PENTING**: Gunakan ini untuk testing, JANGAN buka file HTML langsung
+
+### Deployment
+- `git push` - Deploy otomatis via GitHub Actions ke GitHub Pages
 - `npm run deploy` - Deploy manual ke GitHub Pages (opsional)
+
+### ⚠️ Testing Production Build: Do's and Don'ts
+
+**✅ BENAR - Gunakan Web Server:**
+```bash
+npm run generate    # Build static files
+npm run preview     # Preview dengan web server
+```
+
+**❌ SALAH - Jangan Buka File Langsung:**
+```bash
+# JANGAN buka .output/public/index.html langsung di browser
+# Ini akan menyebabkan "MIME type tidak diizinkan" error
+```
+
+**Kenapa?**
+- Browser memblokir JavaScript modules dari `file://` protocol
+- Static site memerlukan HTTP server untuk serve files dengan benar
+- Lihat [TROUBLESHOOTING.md](TROUBLESHOOTING.md#1-error-mime-type-tidak-diizinkan-saat-membuka-file-lokal) untuk detail
 
 ## Deployment ke GitHub Pages
 
